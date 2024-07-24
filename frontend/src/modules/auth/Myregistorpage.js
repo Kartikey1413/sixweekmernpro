@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 
 function Myregistorpage() {
     const { register, handleSubmit,formState: { errors }} = useForm();
 
-// const mysubmit = (e)=>{
-//             console.log(e);
-// }
+    const navigat = useNavigate();
+
 
 const [x,y]=useState({
     email:"",
@@ -31,6 +31,9 @@ const mysubmit = async()=>{
     });
     const data = await res.json();
     console.log(data);
+    alert("welcome to regis");
+    navigat('/');
+
    
 }
 
@@ -117,7 +120,7 @@ const setdata = (e)=>{
 
                                     <input type="button" className="btn btn-success" value="login" onClick={mysubmit} />
                                     <input type="button" className="btn btn-danger ms-3" value="cancel" />
-                                    <Link to="/">back to login</Link>
+                                    
                                 </div>
                             </div>
                         </div>

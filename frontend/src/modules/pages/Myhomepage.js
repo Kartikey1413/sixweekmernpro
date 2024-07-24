@@ -11,15 +11,26 @@ function Myhomepage() {
     const [mydata, setdata] = useState([]);
 
     const mygetdata = () => {
-        axios.get('https://jsonplaceholder.typicode.com/posts').then((d) => {
-            // console.log(d);
-            setdata(d.data)
+        axios.get('http://localhost:8700/getalldata').then((d) => {
+            console.log(d);
+            setdata(d.data);
         })
     }
 
 useEffect(()=>{
     mygetdata();
 },[])
+
+
+
+const deleterecor = async(id)=>{
+    await axios.delete(`http://localhost:8700/deleteuser/${id}`).then((res)=>{
+        console.log(res.data);
+        mygetdata();
+        });
+}
+
+
 
 
 
@@ -78,25 +89,29 @@ useEffect(()=>{
                     <table className="table">
                         <thead>
                             <tr>
-                                <th scope="col">id</th>
-                                <th scope="col">userid</th>
-                                <th scope="col">title</th>
-                                <th scope="col">body text</th>
+                                <th scope="col">sno</th>
+                                <th scope="col">Mongodb Id</th>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">Email Id</th>
+                                <th scope="col">Course</th>
+                                <th scope="col">DOB</th>
                                 <th scope="col" width={150}>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {mydata.map((d) => {
+                            {mydata.map((d,s) => {
                                 return (
-                                    <tr key={d.id}>
-                                        <th scope="row">{d.id}</th>
-                                        <td>{d.userId}</td>
-                                        <td>{d.title}</td>
-                                        <td>{d.body}</td>
+                                    <tr key={d._id}>
+                                        <th scope="row">{++s}</th>
+                                        <th>{d._id}</th>
+                                        <td>{d.fullname}</td>
+                                        <td>{d.email}</td>
+                                        <td>{d.course}</td>
+                                        <td>{d.dob}</td>
                                         <td>
                                         <span className="badge text-bg-warning m-2 p-2"><FaEdit/></span>
-                                        <span className="badge text-bg-danger m-2 p-2"><MdDeleteSweep/></span>
-                                        <span className="badge text-bg-info m-2 p-2"><Link to={`view/`+d.id}><GrFormView/></Link></span>
+                                        <span className="badge text-bg-danger m-2 p-2" onClick={()=>deleterecor(d._id)}><MdDeleteSweep/></span>
+                                        <span className="badge text-bg-info m-2 p-2"><Link to={`view/`+d._id}><GrFormView/></Link></span>
                                         </td>
                                     </tr>
                                 )
