@@ -21,7 +21,7 @@ const [x,y]=useState({
 
 const mysubmit = async()=>{
     const { fullname, email, gender,pass,dob,course } = x;
-    const res = await fetch("http://localhost:8700/registorpage", {
+    const res = await fetch("https://sixweekmernpro.onrender.com/registorpage", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
