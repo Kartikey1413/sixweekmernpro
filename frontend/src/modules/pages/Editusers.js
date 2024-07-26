@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import React, { useState,useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 
-function Myregistorpage() {
-    const { register, handleSubmit,formState: { errors }} = useForm();
-
+function Edituser() {
     const navigat = useNavigate();
-
-
+    const {id} = useParams();
 const [x,y]=useState({
     email:"",
     fullname:"",
@@ -19,20 +15,19 @@ const [x,y]=useState({
     course:"",
 })
 
-const mysubmit = async()=>{
+const edituser = async()=>{
     const { fullname, email, gender,pass,dob,course } = x;
-    const res = await fetch("http://localhost:8700/registorpage", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+    const res = await fetch(`http://localhost:8700/updateuser/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json"},
         body: JSON.stringify({
             fullname, email, gender,pass,dob,course
         })
-        
     });
     const data = await res.json();
     console.log(data);
-    alert("welcome to regis");
-    navigat('/');
+    alert("change successfull");
+    navigat('/dashboard');
 }
 
 const setdata = (e)=>{
@@ -46,6 +41,21 @@ const setdata = (e)=>{
     })
   }
 
+const getsingleuser =()=>{
+    axios.get(`http://localhost:8700/view/${id}`).then((d) => {
+        console.log(d.data);
+        y(d.data);
+    }) 
+
+}
+
+useEffect(()=>{
+    getsingleuser();
+},[])
+
+
+
+
 
 
 
@@ -57,51 +67,46 @@ const setdata = (e)=>{
                     <div className="container-fluid">
                         <div className="row">
                             <div className='col-12 text-center'>
-                                <h1>New Registor Page</h1>
+                                <h1>User Edit Details Page</h1>
                             </div>
                             <div className="col-md-6">
                                 <div className="mb-3">
                                     <label className="form-label">Email address</label>
-                                    <input type="email" className="form-control" {...register("email",{required:true})} name='email' value={x.email} onInput={setdata}/>
-                                    {errors.email && <p className='text-danger'>email is  required</p>}
+                                    <input type="email" className="form-control" name='email' value={x.email} onInput={setdata}/>
+                                    
                                 </div>
                             </div>
                             <div className="col-md-6">
                                 <div className="mb-3">
                                     <label className="form-label">FullName</label>
-                                    <input type="text" className="form-control" {...register("fullname",{required:true,minLength:5})} name='fullname' value={x.fullname} onInput={setdata}/>
-                                    {/* {errors.fullname && <p className='text-danger'>full name is required</p>} */}
-                                    {errors.fullname?.type==='required' && <p className='text-danger'>full name is required</p>}
-                                    {errors.fullname?.type==='minLength' && <p className='text-danger'>minimum length 5 required</p>}
+                                    <input type="text" className="form-control" name='fullname' value={x.fullname} onInput={setdata}/>
+                                   
                                 </div>
                             </div>
                             <div className="col-md-6">
                                 <div className="mb-3">
                                     <label className="form-label">DOB</label>
-
-                                    <input type="date" className="form-control" {...register("dob")} name='dob' value={x.dob} onChange={setdata}/>
+                                    <input type="date" className="form-control" name='dob' value={x.dob} onChange={setdata}/>
                                 </div>
                             </div>
                             <div className="col-md-6">
                                 <div className="mb-3">
                                 <label className="form-label">Gender</label><br/>
                                     <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="gender" value={x.gender==="" ? "male" : 'female'} {...register("gender")} onChange={setdata}/>
+                                        <input className="form-check-input" type="radio" name="gender" value="male" checked={x.gender==="male" ? true: false} onInput={setdata}/>
                                         <label className="form-check-label">Male</label>
-                                        
                                     </div>
                                     <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="gender" value={x.gender==="female" ? "male" : 'female'} {...register("gender")} onChange={setdata}/>
+                                        <input className="form-check-input" type="radio" name="gender" value="female" checked={x.gender==="female" ? true: false} onInput={setdata}/>
                                         <label className="form-check-label">Female</label>
                                     </div>
-                                   
 
                                 </div>
                             </div>
                             <div className="col-md-6">
                                 <div className="mb-3">
                                     <label className="form-label">Course</label>
-                                    <select className='form-select' {...register("course")} name='course' value={x.course} onChange={setdata}>
+                                    <select className='form-select' value={x.course} onChange={setdata} name='course'>
                                         <option>Mern</option>
                                         <option>excel</option>
                                         <option>java</option>
@@ -113,14 +118,14 @@ const setdata = (e)=>{
                             <div className="col-md-6">
                                 <div className="mb-3">
                                     <label className="form-label">password</label>
-                                    <input type="password" className="form-control" {...register("pass")} name='pass' value={x.pass} onInput={setdata}/>
+                                    <input type="password" className="form-control" value={x.pass} onInput={setdata}/>
                                 </div>
                             </div>
                             <div className="col-md-12 text-center">
                                 <div className="mb-3">
 
-                                    <input type="button" className="btn btn-success" value="login" onClick={mysubmit} />
-                                    <input type="button" className="btn btn-danger ms-3" value="cancel" />
+                                    <input type="button" className="btn btn-success" value="Update" onClick={edituser} />
+                                    <input type="button" className="btn btn-danger ms-3" value="cancel"/>
                                     
                                 </div>
                             </div>
@@ -133,4 +138,4 @@ const setdata = (e)=>{
     )
 }
 
-export default Myregistorpage
+export default Edituser

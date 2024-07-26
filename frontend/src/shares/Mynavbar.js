@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function Mynavbar() {
   return (
@@ -34,6 +35,7 @@ function Mynavbar() {
       <form className="d-flex" role="search">
         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
         <button className="btn btn-outline-success" type="submit">Search</button>
+        <Link className="btn btn-outline-success" to="/">logout</Link>
       </form>
     </div>
   </div>
