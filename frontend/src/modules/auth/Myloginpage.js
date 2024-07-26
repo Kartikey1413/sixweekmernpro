@@ -25,7 +25,7 @@ function Myloginpage() {
 
     const mylogin = async () => {
         const { email, pass } = x;
-        const res = await fetch("http://localhost:8700/login", {
+        const res = await fetch("https://sixweekmernpro.onrender.com/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

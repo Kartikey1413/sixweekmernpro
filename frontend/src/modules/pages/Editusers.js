@@ -17,7 +17,7 @@ const [x,y]=useState({
 
 const edituser = async()=>{
     const { fullname, email, gender,pass,dob,course } = x;
-    const res = await fetch(`http://localhost:8700/updateuser/${id}`, {
+    const res = await fetch(`https://sixweekmernpro.onrender.com/updateuser/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({
@@ -42,7 +42,7 @@ const setdata = (e)=>{
   }
 
 const getsingleuser =()=>{
-    axios.get(`http://localhost:8700/view/${id}`).then((d) => {
+    axios.get(`https://sixweekmernpro.onrender.com/view/${id}`).then((d) => {
         console.log(d.data);
         y(d.data);
     }) 

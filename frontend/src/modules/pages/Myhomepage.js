@@ -11,7 +11,7 @@ function Myhomepage() {
     const [mydata, setdata] = useState([]);
 
     const mygetdata = () => {
-        axios.get('http://localhost:8700/getalldata').then((d) => {
+        axios.get('https://sixweekmernpro.onrender.com/getalldata').then((d) => {
             console.log(d);
             setdata(d.data);
         })
@@ -24,7 +24,7 @@ useEffect(()=>{
 
 
 const deleterecor = async(id)=>{
-    await axios.delete(`http://localhost:8700/deleteuser/${id}`).then((res)=>{
+    await axios.delete(`https://sixweekmernpro.onrender.com/deleteuser/${id}`).then((res)=>{
         console.log(res.data);
         mygetdata();
         });
