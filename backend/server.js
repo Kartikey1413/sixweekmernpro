@@ -21,9 +21,9 @@ myapp.get("/",(req,res)=>{
 
 
 myapp.post("/registorpage",async(req,res)=>{
-    const {email,fullname,dob,course,pass} = req.body;
+    const {email,fullname,dob,course,pass,gender} = req.body;
     const adduser = new mydatapattern({
-        email,fullname,dob,course,pass
+        email,fullname,dob,course,pass,gender
     });
     await adduser.save();
     res.status(200).json(adduser);
@@ -48,14 +48,14 @@ myapp.get("/view/:id",async(req,res)=>{
 
 
 
-myapp.delete("/deleteuser/:id",async(req,res)=>{
+myapp.delete("/deleteuser/:id", async(req,res)=>{
     const {id} = req.params;
     const a = await mydatapattern.findByIdAndDelete({_id:id})
     console.log(a);
     res.status(201).json(a);
 });
 
-myapp.patch("/updaterecord/:id",async(req,res)=>{
+myapp.patch("/updateuser/:id", async(req,res)=>{
     const {id} = req.params;
     const recordupdate = await mydatapattern.findByIdAndUpdate(id,req.body,{new:true});
     console.log(recordupdate);
@@ -66,7 +66,7 @@ myapp.patch("/updaterecord/:id",async(req,res)=>{
 
 
 // update api
-myapp.patch("/updaterecord/:id",async(req,res)=>{
+route.patch("/updaterecord/:id",async(req,res)=>{
     const {id} = req.params;
     const recordupdate = await mypatt.findByIdAndUpdate(id,req.body,{new:true});
     console.log(recordupdate);
@@ -75,22 +75,26 @@ myapp.patch("/updaterecord/:id",async(req,res)=>{
 
 
 
-myapp.post("/login", async(req,res)=>{
+route.post("/login", async(req,res)=>{
     const {email,pass} = req.body;
       
     if(!email || !pass){
-        return res.status(422).json({error:"user and phone no dont match"});
+        return res.status(422).json({error:"user and phone no dont match", status:422});
        
     }
     else{
-        const uservalidation = await mypatt.findOne({email:email});
+        const uservalidation = await mydatapattern.findOne({email:email});
         console.log(uservalidation);
-        if(uservalidation.email===email && uservalidation.pass===pass)
+        if(uservalidation===null)
+        {
+            res.status(200).json({message:'not found',status: 478}); 
+        }
+        else if(uservalidation.email===email && uservalidation.pass===pass)
         {
             res.status(200).json({message:'welcome',status: 201}); 
         }
         else{
-            res.status(250).json({error:"password not match"});
+            res.status(250).json({error:"password not match",status:250});
         }
     }
 });

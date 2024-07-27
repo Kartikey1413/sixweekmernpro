@@ -11,7 +11,7 @@ function Myhomepage() {
     const [mydata, setdata] = useState([]);
 
     const mygetdata = () => {
-        axios.get('http://localhost:8700/getalldata').then((d) => {
+        axios.get('https://sixweekmernpro.onrender.com/getalldata').then((d) => {
             console.log(d);
             setdata(d.data);
         })
@@ -24,7 +24,7 @@ useEffect(()=>{
 
 
 const deleterecor = async(id)=>{
-    await axios.delete(`http://localhost:8700/deleteuser/${id}`).then((res)=>{
+    await axios.delete(`https://sixweekmernpro.onrender.com/deleteuser/${id}`).then((res)=>{
         console.log(res.data);
         mygetdata();
         });
@@ -95,6 +95,7 @@ const deleterecor = async(id)=>{
                                 <th scope="col">Email Id</th>
                                 <th scope="col">Course</th>
                                 <th scope="col">DOB</th>
+                                <th scope="col">Gender</th>
                                 <th scope="col" width={150}>Actions</th>
                             </tr>
                         </thead>
@@ -108,8 +109,9 @@ const deleterecor = async(id)=>{
                                         <td>{d.email}</td>
                                         <td>{d.course}</td>
                                         <td>{d.dob}</td>
+                                        <td>{d.gender}</td>
                                         <td>
-                                        <span className="badge text-bg-warning m-2 p-2"><FaEdit/></span>
+                                        <span className="badge text-bg-warning m-2 p-2"><Link to={`edituserpage/`+d._id}><FaEdit/></Link></span>
                                         <span className="badge text-bg-danger m-2 p-2" onClick={()=>deleterecor(d._id)}><MdDeleteSweep/></span>
                                         <span className="badge text-bg-info m-2 p-2"><Link to={`view/`+d._id}><GrFormView/></Link></span>
                                         </td>

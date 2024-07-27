@@ -10,7 +10,7 @@ const {id}=useParams();
 const [single,singlebind]=useState({})
 
 const getDetailsuser = ()=>{
-    axios.get(`http://localhost:8700/view/${id}`).then((d) => {
+    axios.get(`https://sixweekmernpro.onrender.com/view/${id}`).then((d) => {
         singlebind(d.data);
     })  
 }
