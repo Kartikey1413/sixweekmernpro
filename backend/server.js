@@ -66,7 +66,7 @@ myapp.patch("/updaterecord/:id",async(req,res)=>{
 
 
 // update api
-route.patch("/updaterecord/:id",async(req,res)=>{
+myapp.patch("/updaterecord/:id",async(req,res)=>{
     const {id} = req.params;
     const recordupdate = await mypatt.findByIdAndUpdate(id,req.body,{new:true});
     console.log(recordupdate);
@@ -75,7 +75,7 @@ route.patch("/updaterecord/:id",async(req,res)=>{
 
 
 
-route.post("/login", async(req,res)=>{
+myapp.post("/login", async(req,res)=>{
     const {email,pass} = req.body;
       
     if(!email || !pass){
